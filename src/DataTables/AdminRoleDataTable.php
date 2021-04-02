@@ -28,15 +28,15 @@ class AdminRoleDataTable extends DataTable
                 $Action_Icon="<div class='action-div icon-4 px-0 mx-1 d-flex justify-content-around text-center'>";
 
                 if ($hr->can("edit-role")) {
-                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' totaa-edit-role='$query->id'><i class='text-indigo fas fa-edit'></i></div>";
+                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' thotam-edit-role='$query->id'><i class='text-indigo fas fa-edit'></i></div>";
                 }
 
                 if ($hr->can("set-role-permission")) {
-                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' totaa-set-role-permission='$query->id'><i class='text-success fas fa-tools'></i></div>";
+                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' thotam-set-role-permission='$query->id'><i class='text-success fas fa-tools'></i></div>";
                 }
 
                 if ($hr->can("delete-role")) {
-                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' totaa-delete-role='$query->id'><i class='text-danger fas fa-trash-alt'></i></div>";
+                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' thotam-delete-role='$query->id'><i class='text-danger fas fa-trash-alt'></i></div>";
                 }
 
                 $Action_Icon.="</div>";
