@@ -23,6 +23,14 @@ composer require thotam/thotam-permission
 php artisan vendor:publish --provider="Thotam\ThotamPermission\ThotamPermissionServiceProvider"
 ```
 
+#### Clear your config cache with either of these commands
+
+```php
+ php artisan optimize:clear
+ # or
+ php artisan config:clear
+```
+
 #### Next, you should migrate your database:
 
 ```php
