@@ -31,6 +31,14 @@ php artisan vendor:publish --provider="Thotam\ThotamPermission\ThotamPermissionS
  php artisan config:clear
 ```
 
+#### Edit Thotam\ThotamHr\Models\HR Models:
+
+```php
+implements Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+add Traits Illuminate\Foundation\Auth\Access\Authorizable;
+add Traits Spatie\Permission\Traits\HasRoles;
+```
+
 #### Next, you should migrate your database:
 
 ```php
