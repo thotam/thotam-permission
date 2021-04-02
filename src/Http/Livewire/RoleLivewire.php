@@ -8,6 +8,6 @@ class RoleLivewire extends Component
 {
     public function render()
     {
-        return view('thotam-permission::livewire.role-livewire');
+        return view('thotam-permission::livewire.role.role-livewire');
     }
 }
