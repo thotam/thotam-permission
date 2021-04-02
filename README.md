@@ -17,13 +17,21 @@ composer require thotam/thotam-permission
 
 ## Usage
 
-``` php
-// Usage description here
+#### Public ThotamAuthProvider
+
+```php
+php artisan vendor:publish --provider="Thotam\ThotamPermission\ThotamPermissionServiceProvider"
+```
+
+#### Next, you should migrate your database:
+
+```php
+php artisan migrate
 ```
 
 ### Testing
 
-``` bash
+```bash
 composer test
 ```
 
@@ -41,8 +49,8 @@ If you discover any security related issues, please email thanhtamtqno1@gmail.co
 
 ## Credits
 
-- [thotam](https://github.com/thotam)
-- [All Contributors](../../contributors)
+-   [thotam](https://github.com/thotam)
+-   [All Contributors](../../contributors)
 
 ## License
 
