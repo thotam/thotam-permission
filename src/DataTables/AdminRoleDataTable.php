@@ -2,6 +2,7 @@
 
 namespace Thotam\ThotamPermission\DataTables;
 
+use Auth;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -19,9 +20,34 @@ class AdminRoleDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        $hr = Auth::user()->hr;
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'role.action');
+            ->addColumn('action', function ($query) {
+                $Action_Icon="<div class='action-div icon-4 px-0 mx-1 d-flex justify-content-around text-center'>";
+
+                if ($hr->can("edit-role")) {
+                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' totaa-edit-role='$query->id'><i class='text-indigo fas fa-edit'></i></div>";
+                }
+
+                if ($hr->can("set-role-permission")) {
+                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' totaa-set-role-permission='$query->id'><i class='text-success fas fa-tools'></i></div>";
+                }
+
+                if ($hr->can("delete-role")) {
+                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' totaa-delete-role='$query->id'><i class='text-danger fas fa-trash-alt'></i></div>";
+                }
+
+                $Action_Icon.="</div>";
+
+                return $Action_Icon;
+            })
+            ->editColumn('created_at', function ($query) {
+                return $query->created_at->format("d-m-Y H:i:s");
+            })
+            ->editColumn('updated_at', function ($query) {
+                return $query->updated_at->format("d-m-Y H:i:s");
+            });
     }
 
     /**
@@ -32,7 +58,13 @@ class AdminRoleDataTable extends DataTable
      */
     public function query(Role $model)
     {
-        return $model->newQuery();
+        $query = $model->newQuery();
+
+        if (!request()->has('order')) {
+            $query->orderBy('id', 'desc');
+        };
+
+        return $query;
     }
 
     /**
@@ -46,15 +78,25 @@ class AdminRoleDataTable extends DataTable
                     ->setTableId('role-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+                    ->dom("<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'row'<'col-sm-12 table-responsive't>><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>")
+                    ->parameters([
+                        "autoWidth" => false,
+                        "lengthMenu" => [
+                            [10, 25, 50, -1],
+                            [10, 25, 50, "Tất cả"]
+                        ],
+                        "order" => [],
+                        'initComplete' => 'function(settings, json) {
+                            var api = this.api();
+                            window.addEventListener("dt_draw", function(e) {
+                                api.draw(false);
+                                e.preventDefault();
+                            })
+                            api.buttons()
+                                .container()
+                                .appendTo($("#datatable-buttons"));
+                        }',
+                    ]);
     }
 
     /**
@@ -69,11 +111,34 @@ class AdminRoleDataTable extends DataTable
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                  ->addClass('text-center')
+                  ->title("")
+                  ->footer(""),
+          Column::make('name')
+                  ->title("Tên Role")
+                  ->width(150)
+                  ->searchable(true)
+                  ->orderable(true)
+                  ->footer("Tên Role"),
+          Column::make('description')
+                  ->title("Mô tả")
+                  ->width(150)
+                  ->searchable(true)
+                  ->orderable(true)
+                  ->footer("Mô tả"),
+          Column::make('group')
+                  ->title("Nhóm")
+                  ->width(150)
+                  ->searchable(true)
+                  ->orderable(true)
+                  ->footer("Nhóm"),
+          Column::computed('created_at')
+                  ->width(200)
+                  ->title("Thời gian tạo")
+                  ->footer("Thời gian tạo"),
+          Column::computed('updated_at')
+                  ->title("Thời gian cập nhật")
+                  ->footer("Thời gian cập nhật"),
         ];
     }
 
