@@ -28,7 +28,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Thotam\\ThotamPermission\\": "src"
+            "Thotam\\ThotamPermission\\": "src",
+            "Thotam\\ThotamPermission\\Database\\Seeders\\": "database/seeders"
         }
     },
     "autoload-dev": {
