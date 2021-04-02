@@ -2,7 +2,10 @@
 
 namespace Thotam\ThotamPermission;
 
+use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
+use Thotam\ThotamPermission\Http\Livewire\RoleLivewire;
+use Thotam\ThotamPermission\Http\Livewire\PermissionLivewire;
 
 class ThotamPermissionServiceProvider extends ServiceProvider
 {
@@ -64,6 +67,11 @@ class ThotamPermissionServiceProvider extends ServiceProvider
         $this->app->singleton('thotam-permission', function () {
             return new ThotamPermission;
         });
+
+        if (class_exists(Livewire::class)) {
+            Livewire::component('thotam-permission::permission-livewire', PermissionLivewire::class);
+            Livewire::component('thotam-permission::role-livewire', RoleLivewire::class);
+        }
     }
 
 }
