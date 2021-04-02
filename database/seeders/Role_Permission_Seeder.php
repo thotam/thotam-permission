@@ -1,6 +1,6 @@
 <?php
 
-namespace Thotam\ThotamPermission;
+namespace Thotam\ThotamPermission\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
