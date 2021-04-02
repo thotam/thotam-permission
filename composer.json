@@ -1,0 +1,56 @@
+{
+    "name": "thotam/thotam-permission",
+    "description": "Custom laravel permission manager base on spatie laravel-permission",
+    "keywords": [
+        "thotam",
+        "thotam-permission"
+    ],
+    "homepage": "https://github.com/thotam/thotam-permission",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "thotam",
+            "email": "thanhtamtqno1@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0",
+        "illuminate/console": "^8.0",
+        "illuminate/contracts": "^8.0",
+        "illuminate/support": "^8.0",
+        "spatie/laravel-permission": "^4.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Thotam\\ThotamPermission\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Thotam\\ThotamPermission\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Thotam\\ThotamPermission\\ThotamPermissionServiceProvider"
+            ],
+            "aliases": {
+                "ThotamPermission": "Thotam\\ThotamPermission\\ThotamPermissionFacade"
+            }
+        }
+    }
+}
