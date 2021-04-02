@@ -21,9 +21,10 @@ class AdminRoleDataTable extends DataTable
     public function dataTable($query)
     {
         $hr = Auth::user()->hr;
+
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', function ($query) {
+            ->addColumn('action', function ($query) use ($hr) {
                 $Action_Icon="<div class='action-div icon-4 px-0 mx-1 d-flex justify-content-around text-center'>";
 
                 if ($hr->can("edit-role")) {
