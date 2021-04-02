@@ -2,8 +2,9 @@
 
 namespace Thotam\ThotamPermission\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Http\Request;
+use Thotam\ThotamPermission\DataTables\AdminRoleDataTable;
 
 class RoleController extends Controller
 {
