@@ -26,7 +26,7 @@ class ThotamPermissionServiceProvider extends ServiceProvider
             ], 'config');
 
             $this->publishes([
-                __DIR__.'/../database/migrations/create_permission_tables.php.stu' => database_path('migrations/2015_04_02_133443_create_permission_tables.php'),
+                __DIR__.'/../database/migrations/create_permission_tables.php.stub' => database_path('migrations/2015_04_02_133443_create_permission_tables.php'),
             ], 'migrations');
 
             // Publishing the views.
