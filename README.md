@@ -17,7 +17,7 @@ composer require thotam/thotam-permission
 
 ## Usage
 
-#### Public ThotamAuthProvider
+#### Public ThotamPermissionServiceProvider
 
 ```php
 php artisan vendor:publish --provider="Thotam\ThotamPermission\ThotamPermissionServiceProvider"
