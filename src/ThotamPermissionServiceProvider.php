@@ -15,7 +15,7 @@ class ThotamPermissionServiceProvider extends ServiceProvider
          * Optional methods to load your package assets
          */
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'thotam-permission');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'thotam-permission');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'thotam-permission');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/../routes/routes.php');
 
