@@ -16,7 +16,7 @@ class ThotamPermissionServiceProvider extends ServiceProvider
          */
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'thotam-permission');
         // $this->loadViewsFrom(__DIR__.'/../resources/views', 'thotam-permission');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         if ($this->app->runningInConsole()) {
@@ -24,10 +24,6 @@ class ThotamPermissionServiceProvider extends ServiceProvider
                 __DIR__.'/../config/config.php' => config_path('thotam-permission.php'),
                 __DIR__.'/../config/permission.php' => config_path('permission.php'),
             ], 'config');
-
-            $this->publishes([
-                __DIR__.'/../database/migrations/create_permission_tables.php.stub' => database_path('migrations/2015_04_02_133443_create_permission_tables.php'),
-            ], 'migrations');
 
             // Publishing the views.
             /*$this->publishes([
