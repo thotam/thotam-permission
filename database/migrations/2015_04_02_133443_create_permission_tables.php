@@ -29,6 +29,7 @@ class CreatePermissionTables extends Migration
             $table->longtext('group')->nullable()->default(null);
             $table->bigInteger('order')->nullable()->default(null);
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
+            $table->boolean('lock')->nullable()->default(null);
             $table->timestamps();
 
             $table->unique(['name', 'guard_name']);
@@ -41,6 +42,7 @@ class CreatePermissionTables extends Migration
             $table->longtext('group')->nullable()->default(null);
             $table->bigInteger('order')->nullable()->default(null);
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
+            $table->boolean('lock')->nullable()->default(null);
             $table->timestamps();
 
             $table->unique(['name', 'guard_name']);
