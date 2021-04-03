@@ -79,6 +79,7 @@ class RoleLivewire extends Component
         $this->viewStatus = false;
         $this->deleteStatus = false;
         $this->resetValidation();
+        $this->mount();
     }
 
     /**
