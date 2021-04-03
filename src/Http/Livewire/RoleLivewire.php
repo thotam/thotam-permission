@@ -153,7 +153,7 @@ class RoleLivewire extends Component
     {
         if ($this->hr->cannot("edit-role")) {
             $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Bạn không có quyền thực hiện hành động này"]);
-            $this->reset();
+            $this->cancel();
             return null;
         }
 
@@ -171,7 +171,7 @@ class RoleLivewire extends Component
 
         if (!!$role->lock) {
             $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Role đã khóa, không thể chính sửa"]);
-            $this->reset();
+            $this->cancel();
             return null;
         }
 
