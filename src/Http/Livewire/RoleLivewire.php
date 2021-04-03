@@ -204,7 +204,9 @@ class RoleLivewire extends Component
             }
         }
 
+        $this->dispatchBrowserEvent('unblockUI');
         $this->validate();
+        $this->dispatchBrowserEvent('blockUI');
 
         try {
             Role::updateOrCreate([
