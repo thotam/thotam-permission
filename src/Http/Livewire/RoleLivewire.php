@@ -166,8 +166,8 @@ class RoleLivewire extends Component
         $this->editStatus = true;
         $this->modal_title = "Chỉnh sửa Role";
         $this->toastr_message = "Chỉnh sửa Role thành công";
-        $name_arrays = Role::all()->pluck("group")->toArray();
-        $this->name_arrays = array_filter(array_unique($name_arrays));
+        $group_arrays = Role::all()->pluck("group")->toArray();
+        $this->group_arrays = array_filter(array_unique($group_arrays));
 
         if (!!$role->lock) {
             $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Role đã khóa, không thể chính sửa"]);
