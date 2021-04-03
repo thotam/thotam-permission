@@ -28,7 +28,7 @@ class AdminRoleDataTable extends DataTable
                 $Action_Icon="<div class='action-div icon-4 px-0 mx-1 d-flex justify-content-around text-center'>";
 
                 if ($hr->can("edit-role")) {
-                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' thotam-edit-role='$query->id'><i class='text-indigo fas fa-edit'></i></div>";
+                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' thotam-livewire-method='edit' thotam-model-id='$query->id'><i class='text-indigo fas fa-edit'></i></div>";
                 }
 
                 if ($hr->can("set-role-permission")) {
