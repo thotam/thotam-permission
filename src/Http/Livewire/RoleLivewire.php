@@ -119,6 +119,8 @@ class RoleLivewire extends Component
         $group_arrays = Role::all()->pluck("group")->toArray();
         $this->group_arrays = array_filter(array_unique($group_arrays));
 
+        $this->dispatchBrowserEvent('unblockUI');
+        $this->dispatchBrowserEvent('dynamic_update');
         $this->dispatchBrowserEvent('show_modal', "#add_edit_modal");
     }
 
