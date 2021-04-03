@@ -138,6 +138,42 @@ class RoleLivewire extends Component
     }
 
     /**
+     * edit_role method
+     *
+     * @return void
+     */
+    public function edit_role($id)
+    {
+        if ($this->hr->cannot("edit-role")) {
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Bạn không có quyền thực hiện hành động này"]);
+            $this->reset();
+            return null;
+        }
+
+        $this->role_id = $id;
+        $role = Role::find($this->role_id);
+        $this->name = $role->name;
+        $this->description = $role->description;
+        $this->group = $role->group;
+        $this->order = $role->order;
+        $this->editStatus = true;
+        $this->modal_title = "Chỉnh sửa Role";
+        $this->toastr_message = "Chỉnh sửa Role thành công";
+        $name_arrays = Role::all()->pluck("group")->toArray();
+        $this->name_arrays = array_filter(array_unique($name_arrays));
+
+        if (!!$role->lock) {
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Role đã khóa, không thể chính sửa"]);
+            $this->reset();
+            return null;
+        }
+
+        $this->dispatchBrowserEvent('unblockUI');
+        $this->dispatchBrowserEvent('dynamic_update');
+        $this->dispatchBrowserEvent('show_modal', "#add_edit_modal");
+    }
+
+    /**
      * Lưu lại thông tin
      *
      * @return void
