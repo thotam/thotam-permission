@@ -28,6 +28,13 @@ class RoleLivewire extends Component
     public $deleteStatus = false;
 
     /**
+     * Các biển sự kiện
+     *
+     * @var array
+     */
+    protected $listeners = ['edit_role', 'delete_role', 'set_role_permission', ];
+
+    /**
      * On updated action
      *
      * @param  mixed $propertyName
