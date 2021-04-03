@@ -53,6 +53,18 @@ class RoleLivewire extends Component
     }
 
     /**
+     * Custom attributes
+     *
+     * @var array
+     */
+    protected $validationAttributes = [
+        'name' => 'tên Role',
+        'description' => 'mô tả Role',
+        'group' => 'nhóm Role',
+        'order' => 'số thứ tự',
+    ];
+
+    /**
      * updatedDescription
      *
      * @return void
@@ -116,12 +128,65 @@ class RoleLivewire extends Component
 
         $this->addStatus = true;
         $this->modal_title = "Thêm Role mới";
+        $this->toastr_message = "Thêm Role mới thành công";
         $group_arrays = Role::all()->pluck("group")->toArray();
         $this->group_arrays = array_filter(array_unique($group_arrays));
 
         $this->dispatchBrowserEvent('unblockUI');
         $this->dispatchBrowserEvent('dynamic_update');
         $this->dispatchBrowserEvent('show_modal', "#add_edit_modal");
+    }
+
+    /**
+     * Lưu lại thông tin
+     *
+     * @return void
+     */
+    public function save()
+    {
+        if (!$this->hr->canAny(["add-role", "edit-role"])) {
+            $this->dispatchBrowserEvent('unblockUI');
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Bạn không có quyền thực hiện hành động này"]);
+            return null;
+        }
+
+        //Xác thực dữ liệu
+        if (!!$this->role_id) {
+            $role = Role::find($this->role_id);
+
+            if (!!$role->lock) {
+                $this->dispatchBrowserEvent('unblockUI');
+                $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Role đã khóa, không thể chính sửa"]);
+                return null;
+            }
+        }
+
+        $this->validate();
+
+        try {
+            Role::updateOrCreate([
+                "id" => $this->role_id,
+            ], [
+                'name' => mb_convert_case($this->vn_to_str(trim($this->name)), MB_CASE_LOWER, "UTF-8"),
+                "description" => $this->description,
+                "group" => $this->group,
+                "order" => $this->order
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            $this->dispatchBrowserEvent('unblockUI');
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => implode(" - ", $e->errorInfo)]);
+            return null;
+        } catch (\Exception $e2) {
+            $this->dispatchBrowserEvent('unblockUI');
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => $e2->getMessage()]);
+            return null;
+        }
+
+        //Đẩy thông tin về trình duyệt
+        $this->dispatchBrowserEvent('dt_draw');
+        $toastr_message = $this->toastr_message;
+        $this->cancel();
+        $this->dispatchBrowserEvent('toastr', ['type' => 'success', 'title' => "Thành công", 'message' => $toastr_message]);
     }
 
     /**
