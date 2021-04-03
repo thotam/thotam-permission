@@ -45,9 +45,9 @@
                                         <div id="group_div">
                                             <input type="text" class="form-control px-2" wire:model.debounce.500ms="group" id="group" style="width: 100%" placeholder="Nhóm Role ..." autocomplete="off"  list="suggestions">
                                             <datalist id="suggestions">
-                                                @if (!!$gruop_arrays)
-                                                    @foreach ($gruop_arrays as $gruop_array)
-                                                        <option value="{{ $gruop_array }}">
+                                                @if (!!$group_arrays)
+                                                    @foreach ($group_arrays as $group_array)
+                                                        <option value="{{ $group_array }}">
                                                     @endforeach
                                                 @endif
                                             </datalist>
