@@ -37,6 +37,7 @@ php artisan vendor:publish --provider="Thotam\ThotamPermission\ThotamPermissionS
 implements Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 add Traits Illuminate\Foundation\Auth\Access\Authorizable;
 add Traits Spatie\Permission\Traits\HasRoles;
+add protected $guard_name = 'web';
 ```
 
 #### Next, you should migrate your database:
