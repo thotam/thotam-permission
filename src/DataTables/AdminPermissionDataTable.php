@@ -58,7 +58,7 @@ class AdminPermissionDataTable extends DataTable
         $query = $model->newQuery();
 
         if (!request()->has('order')) {
-            $query->orderBy('gruop')->orderBy('order');
+            $query->orderBy('group')->orderBy('order');
         };
 
         return $query;
@@ -131,6 +131,7 @@ class AdminPermissionDataTable extends DataTable
                   ->footer("Nhóm"),
           Column::computed('created_at')
                   ->width(200)
+                  ->orderable(true)
                   ->title("Thời gian tạo")
                   ->footer("Thời gian tạo"),
           Column::computed('updated_at')
