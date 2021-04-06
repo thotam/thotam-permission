@@ -32,7 +32,17 @@ class RoleLivewire extends Component
      *
      * @var array
      */
-    protected $listeners = ['edit_role', 'delete_role', 'set_role_permission', ];
+    protected $listeners = ['dynamic_update_method', 'edit_role', 'delete_role', 'set_role_permission', ];
+
+    /**
+     * dynamic_update_method
+     *
+     * @return void
+     */
+    public function dynamic_update_method()
+    {
+        $this->dispatchBrowserEvent('dynamic_update');
+    }
 
     /**
      * On updated action
