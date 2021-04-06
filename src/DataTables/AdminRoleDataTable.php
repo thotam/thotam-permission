@@ -32,11 +32,11 @@ class AdminRoleDataTable extends DataTable
                 }
 
                 if ($hr->can("set-role-permission")) {
-                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' thotam-set-role-permission='$query->id'><i class='text-success fas fa-tools'></i></div>";
+                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' thotam-livewire-method='set_role_permission' thotam-model-id='$query->id'><i class='text-success fas fa-tools'></i></div>";
                 }
 
                 if ($hr->can("delete-role")) {
-                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' thotam-delete-role='$query->id'><i class='text-danger fas fa-trash-alt'></i></div>";
+                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' thotam-livewire-method='delete_role' thotam-model-id='$query->id'><i class='text-danger fas fa-trash-alt'></i></div>";
                 }
 
                 $Action_Icon.="</div>";
