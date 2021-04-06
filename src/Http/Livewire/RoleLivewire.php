@@ -18,6 +18,7 @@ class RoleLivewire extends Component
     public $group_arrays = [];
     public $hr;
     public $role_id, $role;
+    public $permissions;
 
     /**
      * @var bool
@@ -25,6 +26,7 @@ class RoleLivewire extends Component
     public $addStatus = false;
     public $viewStatus = false;
     public $editStatus = false;
+    public $setStatus = false;
     public $deleteStatus = false;
 
     /**
@@ -106,6 +108,7 @@ class RoleLivewire extends Component
         $this->addStatus = false;
         $this->editStatus = false;
         $this->viewStatus = false;
+        $this->setStatus = false;
         $this->deleteStatus = false;
         $this->resetValidation();
         $this->mount();
@@ -140,6 +143,7 @@ class RoleLivewire extends Component
     {
         if ($this->hr->cannot("add-role")) {
             $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Bạn không có quyền thực hiện hành động này"]);
+            $this->cancel();
             return null;
         }
 
@@ -168,19 +172,19 @@ class RoleLivewire extends Component
         }
 
         $this->role_id = $id;
-        $role = Role::find($this->role_id);
-        $this->name = $role->name;
-        $this->description = $role->description;
-        $this->group = $role->group;
-        $this->order = $role->order;
+        $this->role = Role::find($this->role_id);
+        $this->name = $this->role->name;
+        $this->description = $this->role->description;
+        $this->group = $this->role->group;
+        $this->order = $this->role->order;
         $this->editStatus = true;
         $this->modal_title = "Chỉnh sửa Role";
         $this->toastr_message = "Chỉnh sửa Role thành công";
         $group_arrays = Role::all()->pluck("group")->toArray();
         $this->group_arrays = array_filter(array_unique($group_arrays));
 
-        if (!!$role->lock) {
-            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Role đã khóa, không thể chính sửa"]);
+        if (!!$this->role->lock) {
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Role đã khóa, không thể chỉnh sửa"]);
             $this->cancel();
             return null;
         }
@@ -205,11 +209,11 @@ class RoleLivewire extends Component
 
         //Xác thực dữ liệu
         if (!!$this->role_id) {
-            $role = Role::find($this->role_id);
+            $this->role = Role::find($this->role_id);
 
-            if (!!$role->lock) {
+            if (!!$this->role->lock) {
                 $this->dispatchBrowserEvent('unblockUI');
-                $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Role đã khóa, không thể chính sửa"]);
+                $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Role đã khóa, không thể chỉnh sửa"]);
                 return null;
             }
         }
@@ -227,6 +231,141 @@ class RoleLivewire extends Component
                 "group" => $this->group,
                 "order" => $this->order
             ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            $this->dispatchBrowserEvent('unblockUI');
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => implode(" - ", $e->errorInfo)]);
+            return null;
+        } catch (\Exception $e2) {
+            $this->dispatchBrowserEvent('unblockUI');
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => $e2->getMessage()]);
+            return null;
+        }
+
+        //Đẩy thông tin về trình duyệt
+        $this->dispatchBrowserEvent('dt_draw');
+        $toastr_message = $this->toastr_message;
+        $this->cancel();
+        $this->dispatchBrowserEvent('toastr', ['type' => 'success', 'title' => "Thành công", 'message' => $toastr_message]);
+    }
+
+    /**
+     * delete_role
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function delete_role($id)
+    {
+        if ($this->hr->cannot("delete-role")) {
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Bạn không có quyền thực hiện hành động này"]);
+            $this->cancel();
+            return null;
+        }
+
+        $this->role_id = $id;
+        $this->role = Role::find($this->role_id);
+        $this->name = $this->role->name;
+        $this->description = $this->role->description;
+        $this->group = $this->role->group;
+        $this->order = $this->role->order;
+
+        if (!!$this->role->lock) {
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Role đã khóa, không thể xóa"]);
+            $this->cancel();
+            return null;
+        }
+
+        $this->deleteStatus = true;
+        $this->modal_title = "Xóa Role";
+        $this->toastr_message = "Xóa Role thành công";
+
+        $this->dispatchBrowserEvent('unblockUI');
+        $this->dispatchBrowserEvent('dynamic_update');
+        $this->dispatchBrowserEvent('show_modal', "#delete_modal");
+    }
+
+    /**
+     * Xóa thôi nào
+     *
+     * @return void
+     */
+    public function delete()
+    {
+        if ($this->hr->cannot("delete-role")) {
+            $this->dispatchBrowserEvent('unblockUI');
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Bạn không có quyền thực hiện hành động này"]);
+            return null;
+        }
+
+        //Xác thực dữ liệu
+        if (!!$this->role->lock) {
+            $this->dispatchBrowserEvent('unblockUI');
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Role đã khóa, không thể xóa"]);
+            return null;
+        }
+
+        try {
+            $this->role->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $this->dispatchBrowserEvent('unblockUI');
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => implode(" - ", $e->errorInfo)]);
+            return null;
+        } catch (\Exception $e2) {
+            $this->dispatchBrowserEvent('unblockUI');
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => $e2->getMessage()]);
+            return null;
+        }
+
+        //Đẩy thông tin về trình duyệt
+        $this->dispatchBrowserEvent('dt_draw');
+        $toastr_message = $this->toastr_message;
+        $this->cancel();
+        $this->dispatchBrowserEvent('toastr', ['type' => 'success', 'title' => "Thành công", 'message' => $toastr_message]);
+    }
+
+    /**
+     * set_role_permission
+     *
+     * @param  mixed $role
+     * @return void
+     */
+    public function set_role_permission(Role $role)
+    {
+        if ($this->hr->cannot("set-role-permission")) {
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Bạn không có quyền thực hiện hành động này"]);
+            $this->cancel();
+            return null;
+        }
+
+        $this->role = $role;
+        $this->description = $this->role->description;
+        $this->group = $this->role->group;
+        $this->permissions =  $this->role->permissions()->select("name", "id")->pluck("id", "name")->toArray();
+
+        $this->setStatus = true;
+        $this->modal_title = "Set Permission cho Role";
+        $this->toastr_message = "Set thành công";
+
+        $this->dispatchBrowserEvent('unblockUI');
+        $this->dispatchBrowserEvent('dynamic_update');
+        $this->dispatchBrowserEvent('show_modal', "#set_role_permission_modal");
+    }
+
+    /**
+     * Lưu quyền lại cái là xong ấy mà
+     *
+     * @return void
+     */
+    public function save_role_permission()
+    {
+        if ($this->hr->cannot("set-role-permission")) {
+            $this->dispatchBrowserEvent('unblockUI');
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Bạn không có quyền thực hiện hành động này"]);
+            return null;
+        }
+
+        try {
+            $this->role->syncPermissions($this->permissions);
         } catch (\Illuminate\Database\QueryException $e) {
             $this->dispatchBrowserEvent('unblockUI');
             $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => implode(" - ", $e->errorInfo)]);
