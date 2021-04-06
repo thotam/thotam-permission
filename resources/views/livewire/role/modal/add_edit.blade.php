@@ -4,7 +4,7 @@
         <div class="modal-content py-2">
             <div class="modal-header">
                 <h4 class="modal-title text-purple"><span class="fas fa-user-tag mr-3"></span>{{ $modal_title }}</h4>
-                <button type="button" wire:click.prevent="cancel()" class="close" data-dismiss="modal" wire:loading.attr="disabled" aria-label="Close">
+                <button type="button" wire:click.prevent="cancel()" thotam-blockui class="close" data-dismiss="modal" wire:loading.attr="disabled" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
