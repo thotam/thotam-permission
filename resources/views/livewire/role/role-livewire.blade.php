@@ -5,6 +5,8 @@
 
     <!-- Incluce các modal -->
     @include('thotam-permission::livewire.role.modal.add_edit')
+    @include('thotam-permission::livewire.role.modal.delete_modal')
+    @include('thotam-permission::livewire.role.modal.set_role_permission_modal')
 
     <!-- Scripts -->
     @push('livewires')
