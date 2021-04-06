@@ -58,7 +58,7 @@ class AdminPermissionDataTable extends DataTable
         $query = $model->newQuery();
 
         if (!request()->has('order')) {
-            $query->orderBy('id', 'desc');
+            $query->orderBy('gruop')->orderBy('order');
         };
 
         return $query;
