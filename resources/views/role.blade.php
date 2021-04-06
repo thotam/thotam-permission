@@ -16,7 +16,7 @@
 @endpush
 
 @section('content')
-    <h4 class="font-weight-bold py-3 mb-4">Quản lý Role</h4>
+    <h4 class="font-weight-bold py-3 mb-4">{{ $title }}</h4>
 
     <div class="card">
 
