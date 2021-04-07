@@ -14,7 +14,7 @@ class PermissionLivewire extends Component
     * @var mixed
     */
     public $name, $description, $group, $order;
-    public $user_info, $modal_title, $toastr_message;
+    public $modal_title, $toastr_message;
     public $group_arrays = [];
     public $hr;
     public $permission_id, $permission;
