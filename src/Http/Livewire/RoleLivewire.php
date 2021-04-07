@@ -14,7 +14,7 @@ class RoleLivewire extends Component
     * @var mixed
     */
     public $name, $description, $group, $order;
-    public $user_info, $modal_title, $toastr_message;
+    public $modal_title, $toastr_message;
     public $group_arrays = [];
     public $hr;
     public $role_id, $role;
