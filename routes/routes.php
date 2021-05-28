@@ -15,7 +15,7 @@ use Thotam\ThotamPermission\Http\Controllers\PermissionController;
 |
 */
 
-Route::middleware(['web', 'auth', 'CheckAccount', 'CheckHr'])->group(function () {
+Route::middleware(['web','CheckBrowser', 'auth', 'CheckAccount', 'CheckHr', 'CheckInfo'])->group(function () {
 
     //Route Admin
     Route::redirect('admin', '/', 301);
