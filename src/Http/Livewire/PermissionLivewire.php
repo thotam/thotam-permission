@@ -320,7 +320,7 @@ class PermissionLivewire extends Component
      * vn_to_str
      *
      * @param  mixed $str
-     * @return void
+     * @return string
      */
     protected function vn_to_str($str=null) {
 
